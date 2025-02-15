@@ -1,0 +1,13 @@
+[project]
+name = "decrypt-pdfs-py"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.6",
+]
