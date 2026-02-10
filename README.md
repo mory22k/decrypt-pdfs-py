@@ -23,9 +23,10 @@ Install `qpdf`:
 
 1. Clone this repository.
 2. Move to the project directory.
-3. (Optional) Install toolchain via `mise`:
-   - Install mise: <https://mise.jdx.dev/getting-started.html>
+3. Install toolchain:
+   - (Recommended) Install mise: <https://mise.jdx.dev/getting-started.html>
    - Run `mise install`
+   - Instead, you can install `uv` directly if you prefer: <https://docs.astral.sh/uv/getting-started/installation/>
 
 ## Usage
 
