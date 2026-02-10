@@ -1,4 +1,4 @@
-# Copyright 2025 Keisuke Morita
+# Copyright 2026 Keisuke Morita
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ def check_qpdf() -> None:
     if shutil.which("qpdf") is None:
         print("Error: 'qpdf' is not installed.")
         print("Please install qpdf using the following command:")
-        print("\n  # macOS (Homebrew)\n  brew install qpdf")
         print("\n  # Ubuntu/Debian\n  sudo apt install qpdf")
+        print("\n  # macOS (Homebrew)\n  brew install qpdf")
         print("\n  # Windows (scoop)\n  scoop install qpdf")
         sys.exit(1)
 
