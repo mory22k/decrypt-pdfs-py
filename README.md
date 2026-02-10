@@ -1,22 +1,75 @@
 # Decrypt PDFs
 
-This script decrypts a pile of PDFs encrypted with a same password using QPDF.
+Batch-decrypt PDF files that share the same password by calling `qpdf`.
 
-## How to use
+## What This Tool Does
 
-1. Install QPDF
-    - https://github.com/qpdf/qpdf
-    - On macOS: `brew install qpdf`
-2. Install mise.
-    - https://mise.jdx.dev/getting-started.html
-    - On macOS: `brew install mise`
-3. Clone this repository.
-4. Install the dependencies.
-    - Move to the directory where you cloned the repository.
-    - Run `mise install`
-    - Run `uv sync --no-dev`
-5. Run the script.
-    - Run `python decrypt_pdfs.py <path_to_folder_containing_pdfs> <path_to_output_folder>`
-    - Enter the password.
+- Prompts for a password
+- Decrypts all `*.pdf` files in an input directory
+- Writes decrypted files to an output directory with the same filenames
+
+## Requirements
+
+- Python 3.13+
+- `qpdf` installed and available on `PATH`
+
+Install `qpdf`:
+
+- Ubuntu/Debian: `sudo apt install qpdf`
+- macOS (Homebrew): `brew install qpdf`
+- Windows (scoop): `scoop install qpdf`
+
+## Setup
+
+1. Clone this repository.
+2. Move to the project directory.
+3. (Optional) Install toolchain via `mise`:
+   - Install mise: <https://mise.jdx.dev/getting-started.html>
+   - Run `mise install`
+
+## Usage
+
+```bash
+uv run main.py <input_dir> <output_dir>
+```
+
+Example:
+
+```bash
+uv run main.py ./encrypted_pdfs ./decrypted_pdfs
+```
+
+You will be prompted:
+
+```text
+Enter the PDF password:
+```
+
+## CLI Arguments
+
+- `input_dir`: Directory containing encrypted PDF files
+- `output_dir`: Directory to write decrypted PDF files (created automatically if missing)
+
+## Behavior Notes
+
+- Only files matching `*.pdf` in `input_dir` are processed.
+- Processing is non-recursive (subdirectories are not scanned).
+- Source files are never modified.
+- If decryption fails for a file (wrong password, damaged PDF, etc.), the script prints an error and moves on.
+
+## Troubleshooting
+
+- `Error: 'qpdf' is not installed.`  
+  Install `qpdf` and ensure it is available from your shell.
+- No files processed  
+  Confirm that `input_dir` contains files ending in `.pdf`.
+- `Failed to decrypt: <filename>`  
+  Verify the password and confirm the file is a valid encrypted PDF.
+
+## Development
+
+- Lint: `uv run ruff check .`
 
 ## License
+
+Apache License 2.0. See `LICENSE`.
