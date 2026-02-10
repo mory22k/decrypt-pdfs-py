@@ -7,6 +7,7 @@ Batch-decrypt PDF files that share the same password by calling `qpdf`.
 - Prompts for a password
 - Decrypts all `*.pdf` files in an input directory
 - Writes decrypted files to an output directory with the same filenames
+- Supports optional strict output permissions for decrypted PDFs
 
 ## Requirements
 
@@ -40,6 +41,18 @@ Example:
 uv run main.py ./encrypted_pdfs ./decrypted_pdfs
 ```
 
+With strict permissions:
+
+```bash
+uv run main.py ./encrypted_pdfs ./decrypted_pdfs --strict-permissions
+```
+
+With explicit output mode:
+
+```bash
+uv run main.py ./encrypted_pdfs ./decrypted_pdfs --file-mode 0600
+```
+
 You will be prompted:
 
 ```text
@@ -50,6 +63,9 @@ Enter the PDF password:
 
 - `input_dir`: Directory containing encrypted PDF files
 - `output_dir`: Directory to write decrypted PDF files (created automatically if missing)
+- `--strict-permissions`: Set decrypted PDF permissions to `0600`
+- `--file-mode MODE`: Set decrypted PDF permissions with octal mode (for example `0644`, `0600`)
+- `--verbose`: Show detailed `qpdf` error output for failed files
 
 ## Behavior Notes
 
@@ -57,6 +73,17 @@ Enter the PDF password:
 - Processing is non-recursive (subdirectories are not scanned).
 - Source files are never modified.
 - If decryption fails for a file (wrong password, damaged PDF, etc.), the script prints an error and moves on.
+- Passwords are passed to `qpdf` through a temporary password file (`--password-file`), not through command-line password arguments.
+- By default, decrypted output permissions follow normal OS file-creation behavior (`umask`).
+- When `--strict-permissions` or `--file-mode` is specified, permissions are explicitly applied after successful decryption.
+
+## Security Notes (Important)
+
+- Decrypted PDFs are plaintext and may contain sensitive information. Handle them with strict care.
+- If stricter access control is required, use `--strict-permissions` or `--file-mode 0600`.
+- Delete decrypted PDFs as soon as they are no longer needed.
+- This tool is not intended for use on shared multi-user computers.
+- This tool is not intended for use in cloud environments.
 
 ## Troubleshooting
 
